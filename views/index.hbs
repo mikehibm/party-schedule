@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<h2>{{year}} / {{month}}</h2>
+<div class="calendar-buttons">
+  <a href="/?y={{prevYear}}&m={{prevMonth}}">Prev</a>
+  <a href="/?y={{nextYear}}&m={{nextMonth}}">Next</a>
+</div>
+
+<div class="calendar-container">
+  {{#each dayHeaders}}
+    <div class="calendar-item calendar-header {{#if this.weekend}}weekend{{/if}}">{{this.name}}</div>
+  {{/each}}
+  {{#each days}}
+    <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">{{this.day}}</div>
+  {{/each}}
+</div>

@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "appuser",
+    "password": "apppwd",
+    "database": "partyschedule",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "appuser",
+    "password": "apppwd",
+    "database": "partyschedule",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "appuser",
+    "password": "apppwd",
+    "database": "partyschedule",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

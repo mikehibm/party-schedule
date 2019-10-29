@@ -1,16 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  const users = [
-    { id: 1, name: 'AA AA', email: 'fasdfsa@gmail.com' },
-    { id: 2, name: 'BBB BMBMBM', email: 'bbbbb@bbb.com' },
-    { id: 3, name: 'CCCCCC', email: 'cococo@.co.jp' },
-  ];
+var db = require('../models/');
 
-  //  res.send('respond with a resource');
-  res.json(users);
+/* GET users listing. */
+router.get('/', function(req, res) {
+  db.User.findAll().then(users => {
+    if (!users) {
+      console.log('ユーザーデータを取得できませんでした');
+      res.send('Error');
+    } else {
+      res.json(users);
+    }
+  });
 });
 
 module.exports = router;

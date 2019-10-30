@@ -54,12 +54,16 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# next.js build output
+.next
+
 # dotenv environment variables file
 .env
 *.env
 
-# next.js build output
-.next
+# Config files
+database.json
+database.js
 
 # Data folder
 **/mysql/data/

@@ -1,9 +1,12 @@
 FROM node:10-slim
 
-WORKDIR /server
+WORKDIR /home/node/app
 
-COPY . /server
+COPY ./package.json /home/node/app/
 RUN npm install
 
-EXPOSE 3000
-CMD [ "npm", "start" ]
+COPY . /home/node/app
+
+EXPOSE 3000 3200
+# CMD [ "npm", "start" ]
+CMD [ "/bin/sh" ]

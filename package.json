@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --inspect=0.0.0.0:3000 ./bin/www",
+    "dev": "nodemon --inspect=0.0.0.0:3200 ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
-    "eslint": "^6.6.0"
+    "eslint": "^6.6.0",
+    "nodemon": "^1.19.4"
   }
 }

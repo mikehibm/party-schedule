@@ -1,10 +1,38 @@
-mysql:
-  image: mysql:5.7
-  env_file: docker/mysql/mysql.env
-  environment:
-    - TZ=Pacific/Honolulu
-  ports:
-    - '3306:3306'
-  volumes:
-    - ./docker/mysql/conf:/etc/mysql/conf.d/:ro
-    - ./docker/mysql/data:/var/lib/mysql
+version: '3.7'
+services:
+  mysql:
+    image: mysql:5.7
+    env_file: docker/mysql/mysql.env
+    environment:
+      - TZ=Pacific/Honolulu
+    ports:
+      - '3306:3306'
+    networks:
+      - backend
+    volumes:
+      - ./docker/mysql/conf:/etc/mysql/conf.d/:ro
+      - ./docker/mysql/data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+    env_file: docker/node/app.env
+    environment:
+      - TZ=Pacific/Honolulu
+      - PORT=3000
+    tty: true
+    ports:
+      - '3000:3000'
+      - '3200:3200'
+    networks:
+      - backend
+    volumes:
+      - .:/home/node/app
+    working_dir: /home/node/app
+    command: npm run dev
+    depends_on:
+      - mysql
+
+networks:
+  frontend:
+  backend:

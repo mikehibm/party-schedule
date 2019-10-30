@@ -27,6 +27,10 @@ a {
 .calendar-item.current {
   background-color: white;
 }
+.calendar-item-link {
+  font-size: 200%;
+}
+
 .calendar-header {
   background-color: blue;
   color: white;

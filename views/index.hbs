@@ -10,6 +10,10 @@
     <div class="calendar-item calendar-header {{#if this.weekend}}weekend{{/if}}">{{this.name}}</div>
   {{/each}}
   {{#each days}}
-    <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">{{this.day}}</div>
+    <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">
+      <div>{{this.day}}</div>
+      <div class="calendar-item-link">{{#if this.available}}<a
+            href="/event/{{this.year}}/{{this.month}}/{{this.day}}">◯</a>{{/if}}</div>
+    </div>
   {{/each}}
 </div>

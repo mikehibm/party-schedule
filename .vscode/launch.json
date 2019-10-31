@@ -10,9 +10,9 @@
       "name": "Launch Program",
       "protocol": "inspector",
       "runtimeExecutable": "nodemon",
-      "runtimeArgs": ["--inspect=3000"],
+      "runtimeArgs": ["--inspect=3200"],
       "program": "${workspaceFolder}/bin/www",
-      "port": 3000,
+      "port": 3200,
       "restart": true,
       "env": {
         "NODE_ENV": "development"

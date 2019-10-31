@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     endTime: DataTypes.DATE,
     available: DataTypes.BOOLEAN,
     note: DataTypes.STRING(1000),
+  }, 
+  {
+    freezeTableName: true,
+    tableName: 'events',
   });
   Event.associate = function(models) {
     // associations can be defined here

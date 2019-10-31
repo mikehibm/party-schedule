@@ -30,6 +30,9 @@ a {
 .calendar-item-link {
   font-size: 200%;
 }
+.calendar-item-link a {
+  text-decoration-line: none;
+}
 
 .calendar-header {
   background-color: blue;

@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 const db = require('../db/models/');
 
 /* GET home page. */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const dayHeaders = [
     { name: 'Sun', weekend: true },
     { name: 'Mon' },

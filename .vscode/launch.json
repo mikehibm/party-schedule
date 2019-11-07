@@ -7,18 +7,18 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "protocol": "inspector",
-      "runtimeExecutable": "nodemon",
-      "runtimeArgs": ["--inspect=3000"],
+      "name": "nodemon",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
       "program": "${workspaceFolder}/bin/www",
-      "port": 3000,
       "restart": true,
-      "env": {
-        "NODE_ENV": "development"
-      },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Node",
+      "program": "${workspaceFolder}/bin/www"
     }
   ]
 }

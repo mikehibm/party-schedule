@@ -14,8 +14,9 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   app:
-    build:
-      context: .
+    # build:
+    #   context: .
+    image: node:10
     env_file: docker/node/app.env
     environment:
       - TZ=Pacific/Honolulu
@@ -23,13 +24,12 @@ services:
     tty: true
     ports:
       - '3000:3000'
-      - '3200:3200'
     networks:
       - backend
     volumes:
       - .:/home/node/app
     working_dir: /home/node/app
-    command: npm run dev
+    command: /bin/bash
     depends_on:
       - mysql
 

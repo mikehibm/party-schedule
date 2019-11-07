@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'Events',
+      'events',
       [
         {
           startTime: new Date('Oct 28 2019 13:00:00 GMT-1000'),

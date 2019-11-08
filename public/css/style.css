@@ -47,3 +47,11 @@ a {
   padding: 1em;
   text-align: center;
 }
+
+.events-datail .times {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.events-datail .times div {
+  border: 1px solid pink;
+}

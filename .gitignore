@@ -71,3 +71,4 @@ database.js
 
 docker/mysql/connect.sh
 
+.DS_Store

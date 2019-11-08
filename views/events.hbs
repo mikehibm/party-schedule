@@ -1,0 +1,9 @@
+<h2>{{title}}</h2>
+<div class="events-datail">
+
+  <div class="times">
+    {{#each times}}
+      <div>{{this.label}} {{this.startTime}}-{{this.endTime}} {{this.available}}</div>
+    {{/each}}
+  </div>
+</div>

@@ -1,5 +1,4 @@
-<h1>{{title}}</h1>
-<h2>{{year}} / {{month}}</h2>
+<h2>{{title}}</h2>
 <div class="calendar-buttons">
   <a href="/?y={{prevYear}}&m={{prevMonth}}">Prev</a>
   <a href="/?y={{nextYear}}&m={{nextMonth}}">Next</a>
@@ -13,7 +12,7 @@
     <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">
       <div>{{this.day}}</div>
       <div class="calendar-item-link">{{#if this.available}}<a
-            href="/event/{{this.year}}/{{this.month}}/{{this.day}}">◯</a>{{/if}}</div>
+            href="/events/{{this.year}}/{{this.month}}/{{this.day}}">◯</a>{{/if}}</div>
     </div>
   {{/each}}
 </div>

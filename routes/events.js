@@ -67,6 +67,8 @@ router.get('/:year/:month/:day', async (req, res) => {
         t.available = e.available;
         t.id = e.id;
         t.booked = !e.available;
+        t.first = t.startTime === eventStartTimeStr;
+        t.last = t.endTime === eventEndTimeStr;
       }
     }
 

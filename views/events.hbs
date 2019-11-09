@@ -8,13 +8,13 @@
           {{this.label}}
         </div>
         <div
-          class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if this.label}}hour{{/if}}">
+          class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if this.first}}first{{/if}} {{#if this.last}}last{{/if}} {{#if this.label}}hour{{/if}}">
         </div>
       </div>
     {{/each}}
   </div>
 
-  <div class="event">
+  <div class="event" style="margin-top: 2em">
     {{#each events}}
       <div>{{this.id}} {{this.available}} {{this.startTime}}-{{this.endTime}}</div>
     {{/each}}

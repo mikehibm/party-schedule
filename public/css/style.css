@@ -91,12 +91,12 @@ a {
   border-bottom: #000 2px solid;
 }
 
-.events-datail .times div.time.available {
+.events-datail .times .time.available {
   background-color: white;
   cursor: pointer;
 }
 
-.events-datail .times div.time.booked {
+.events-datail .times .time.booked {
   background-color: yellow;
   border: 2px solid blue;
   border-left: none;
@@ -104,11 +104,15 @@ a {
   cursor: pointer;
 }
 
-.events-datail .times div.time.booked.first {
+.events-datail .times .time.booked.selected {
+  background-color: salmon;
+}
+
+.events-datail .times .time.booked.first {
   border-left: 2px solid blue;
 }
 
-.events-datail .times div.time.booked.last {
+.events-datail .times .time.booked.last {
   border-right: 2px solid blue;
 }
 

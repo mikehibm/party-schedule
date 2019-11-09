@@ -1,5 +1,5 @@
 function init() {
-  let _event = null;
+  let _event = {};
 
   const form = $id('form');
   const selStartTime = $id('startTime');
@@ -30,10 +30,9 @@ function init() {
     const startTime = hdnDate.value + ' ' + e.target.getAttribute('data-start') + ':00';
     const endTime = hdnDate.value + ' ' + e.target.getAttribute('data-end') + ':00';
     const booked = e.target.getAttribute('data-booked') === 'true';
-    console.log('eventId = ', eventId, startTime, endTime, 'booked = ', booked);
 
     form.style.display = 'block';
-    _event = null;
+    _event = {};
 
     if (booked) {
       showLoading();
@@ -47,6 +46,20 @@ function init() {
       };
       showEvent();
       hideLoading();
+    }
+
+    if (eventId) {
+      const selectedElements = document.querySelectorAll(`.events-datail .times .time.selected`);
+      for (const el of selectedElements) {
+        el.classList.remove('selected');
+      }
+
+      if (booked) {
+        const elements = document.querySelectorAll(`.events-datail .times .time[data-id='${eventId}']`);
+        for (const el of elements) {
+          el.classList.add('selected');
+        }
+      }
     }
   }
 
@@ -96,7 +109,6 @@ function init() {
   }
 
   function saveEvent(e) {
-    console.log('saveEvent');
     const date = hdnDate.value;
     _event.startTime = `${date} ${selStartTime.value}`;
     _event.endTime = `${date} ${selEndTime.value}`;
@@ -118,7 +130,6 @@ function init() {
   }
 
   function deleteEvent(e) {
-    console.log('deleteEvent');
     if (!confirm('Are you sure to delete the event?')) {
       e.preventDefault();
       return;

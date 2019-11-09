@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use strict';
 
 module.exports = {
@@ -34,7 +35,7 @@ module.exports = {
     }
   },
 
-  async down(queryInterface) {
+  async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.dropTable('events', { transaction });

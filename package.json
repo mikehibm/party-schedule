@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "nodemon bin/www",
-    "start": "node bin/www"
+    "start": "node bin/www",
+    "db:clear": "sequelize db:seed:undo:all",
+    "db": "sequelize db:seed:all"
   },
   "dependencies": {
     "config": "^3.2.4",

@@ -5,11 +5,35 @@ const Op = Sequelize.Op;
 const db = require('../db/models');
 const { DateTime } = require('luxon');
 
-/* GET events */
+// Get events
+//   d=yyyy-MM-dd
+//   id=999
 router.get('/', async (req, res) => {
   try {
-    const list = await db.Event.findAll();
-    res.json(list);
+    let where = {};
+
+    const date = DateTime.fromSQL(req.query['d']);
+    if (date.isValid) {
+      where = {
+        ...where,
+        startTime: { [Op.gte]: date.toJSDate() },
+        endTime: { [Op.lt]: date.plus({ days: 1 }).toJSDate() },
+      };
+    }
+
+    const id = req.query['id'] | 0;
+    if (id) {
+      where = { ...where, id };
+    }
+
+    const list = await db.Event.findAll({
+      where,
+      order: [['available', 'DESC'], ['startTime', 'ASC']],
+    });
+
+    setTimeout(() => {
+      res.json(list);
+    }, 400); // This delay is for testing purpose only.
   } catch (error) {
     console.error(error);
     res.status(500).send(`Error ${error.message}`);
@@ -21,17 +45,10 @@ router.get('/:year/:month/:day', async (req, res) => {
   const year = req.params.year | 0;
   const month = req.params.month | 0;
   const day = req.params.day | 0;
-  console.log(`Date = ${year}-${month}-${day}`);
 
   const startOfDay = DateTime.local(year, month, day);
   const endOfDay = DateTime.local(year, month, day + 1);
-
-  const times = [
-    // { label: '08', startTime: '08:00', endTime: '08:30', available: false, id: 0 },
-    // { label: '', startTime: '08:30', endTime: '09:00', available: false, id: 0 },
-    // { label: '09', startTime: '09:00', endTime: '09:30', available: true, id: 0 },
-    // { label: '', startTime: '09:30', endTime: '10:00', available: true, id: 0 },
-  ];
+  const times = [];
 
   for (let i = 8; i < 21; i++) {
     const t = {
@@ -67,17 +84,21 @@ router.get('/:year/:month/:day', async (req, res) => {
         t.available = e.available;
         t.id = e.id;
         t.booked = !e.available;
-        t.first = t.startTime === eventStartTimeStr;
-        t.last = t.endTime === eventEndTimeStr;
+        t.first = !e.available && t.startTime === eventStartTimeStr;
+        t.last = !e.available && t.endTime === eventEndTimeStr;
       }
     }
+
+    const timesForSelect = times.filter(t => t.id !== 0);
 
     res.render('events', {
       title: `Events - ${month}/${day}/${year}`,
       year,
       month,
       day,
+      date: startOfDay.toFormat('yyyy-MM-dd'),
       times,
+      timesForSelect,
       events,
     });
   } catch (error) {
@@ -86,5 +107,60 @@ router.get('/:year/:month/:day', async (req, res) => {
     return;
   }
 });
+
+router.post('/:year/:month/:day', async (req, res) => {
+  const year = req.params.year | 0;
+  const month = req.params.month | 0;
+  const day = req.params.day | 0;
+  const date = DateTime.local(year, month, day);
+  const dateStr = date.toFormat('yyyy-MM-dd');
+  const event = req.body;
+  event.id = event.id | 0;
+
+  if (event.button === 'delete') {
+    return deleteEvent(event, req, res);
+  }
+
+  try {
+    let saveData;
+    if (event.id) {
+      saveData = await db.Event.findByPk(event.id);
+      if (!saveData) {
+        res.status(404).send('Not found');
+        return;
+      }
+    } else {
+      saveData = db.Event.build();
+    }
+    saveData.startTime = DateTime.fromSQL(`${dateStr} ${event.startTime}`).toJSDate();
+    saveData.endTime = DateTime.fromSQL(`${dateStr} ${event.endTime}`).toJSDate();
+    saveData.note = event.note;
+    await saveData.save();
+
+    res.redirect(req.originalUrl);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(`Error ${error.message}`);
+    return;
+  }
+});
+
+async function deleteEvent(event, req, res) {
+  const existing = await db.Event.findByPk(event.id);
+  if (!existing) {
+    res.status(404).send('Not found');
+    return;
+  }
+
+  try {
+    existing.destroy();
+
+    res.redirect(req.originalUrl);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(`Error ${error.message}`);
+    return;
+  }
+}
 
 module.exports = router;

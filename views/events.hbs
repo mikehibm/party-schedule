@@ -7,17 +7,59 @@
         <div class="time header {{#if this.label}}hour{{/if}}">
           {{this.label}}
         </div>
-        <div
+        <div data-id="{{this.id}}" data-start="{{this.startTime}}" data-end="{{this.endTime}}"
+          data-booked="{{this.booked}}"
           class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if this.first}}first{{/if}} {{#if this.last}}last{{/if}} {{#if this.label}}hour{{/if}}">
         </div>
       </div>
     {{/each}}
   </div>
 
-  <div class="event" style="margin-top: 2em">
-    {{#each events}}
-      <div>{{this.id}} {{this.available}} {{this.startTime}}-{{this.endTime}}</div>
-    {{/each}}
+  <div id="form" class="form" style="display: none">
+    <form action="" method="post">
+      <div class="field">
+        <label for="startTime">Start</label>
+        <select name="startTime" id="startTime">
+          {{#each timesForSelect}}
+            <option value="{{this.startTime}}">{{this.startTime}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="endTime">End</label>
+        <select name="endTime" id="endTime">
+          {{#each timesForSelect}}
+            <option value="{{this.endTime}}">{{this.endTime}}</option>
+          {{/each}}
+        </select>
+
+      </div>
+
+      <div class="field">
+        <label for="note" style="vertical-align: top;">Note</label>
+        <textarea name="note" id="note" rows="2"></textarea>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" id="btnSave" name="button" value="save" class="btn save">Save</button>
+        <button type="submit" id="btnDelete" name="button" value="delete" class="btn delete"
+          style="display: none">DELETE</button>
+        <button type="button" id="btnClose" class="btn close">Close</button>
+      </div>
+
+      <input type="hidden" name="id" id="id" />
+      <input type="hidden" name="date" id="date" value="{{date}}" />
+    </form>
+
+    <div id="loading" class="loading">
+      <div>
+        <!-- Loading image was created using https://loading.io/ -->
+        <img src="/images/loading.svg" alt="Loading..." />
+      </div>
+    </div>
   </div>
 
 </div>
+
+<script src="/js/events.js"></script>

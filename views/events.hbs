@@ -6,4 +6,11 @@
       <div>{{this.label}} {{this.startTime}}-{{this.endTime}} {{this.available}}</div>
     {{/each}}
   </div>
+
+  <div class="times">
+    {{#each events}}
+      <div>{{this.available}} {{this.startTime}}-{{this.endTime}}</div>
+    {{/each}}
+  </div>
+
 </div>

@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/models/');
 
 /* GET home page. */
-router.get('/', async function(req, res) {
+router.get('/', async (req, res) => {
   const dayHeaders = [
     { name: 'Sun', weekend: true },
     { name: 'Mon' },

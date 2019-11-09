@@ -38,6 +38,7 @@
     "formulahendry.auto-rename-tag",
     "eamodio.gitlens",
     "dbaeumer.vscode-eslint",
+    "garaemon.oneline-scroll",
     "eg2.vscode-npm-script",
     "formulahendry.vscode-mysql",
     "henoc.svgeditor"

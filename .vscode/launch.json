@@ -7,18 +7,37 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon",
+      "name": "Nodemon in Docker",
       "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
       "program": "${workspaceFolder}/bin/www",
       "restart": true,
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      // Set timeout longer than default so that debugger can re-connect to nodemon in case of syntax error.
+      "timeout": 120000,
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Nodemon Local (No Docker)",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+      "program": "${workspaceFolder}/bin/www",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      // Set timeout longer than default so that debugger can re-connect to nodemon in case of syntax error.
+      "timeout": 120000,
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"],
+      "envFile": "${workspaceFolder}/docker/node/app.env",
+      "env": { "MYSQL_SERVER": "localhost" }
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Node",
-      "program": "${workspaceFolder}/bin/www"
+      "program": "${workspaceFolder}/bin/www",
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"]
     }
   ]
 }

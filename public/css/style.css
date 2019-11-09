@@ -50,8 +50,45 @@ a {
 
 .events-datail .times {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  row-gap: 1em;
+  border: #222 2px solid;
 }
-.events-datail .times div {
-  border: 1px solid pink;
+
+.events-datail .times .time {
+  height: 4em;
+  border-left: 1px dotted #aaa;
+  background-color: lightgray;
+  text-align: center;
+}
+
+.events-datail .times .time.hour {
+  border-left: 1px solid #aaa;
+}
+
+.events-datail .times .time.header {
+  height: 1.2em;
+  border: none;
+  border-bottom: #000 2px solid;
+  background-color: #444;
+  color: #fefefe;
+  text-align: left;
+}
+.events-datail .times .time.header.hour {
+  border-left: 1px solid #aaa;
+  border-bottom: #000 2px solid;
+}
+
+.events-datail .times div.time.available {
+  background-color: white;
+}
+
+.events-datail .times div.time.booked {
+  background-color: yellow;
+}
+
+@media screen and (min-width: 640px) {
+  .events-datail .times {
+    grid-template-columns: repeat(26, 1fr);
+  }
 }

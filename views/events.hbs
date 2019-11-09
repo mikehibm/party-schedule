@@ -3,13 +3,20 @@
 
   <div class="times">
     {{#each times}}
-      <div>{{this.label}} {{this.startTime}}-{{this.endTime}} {{this.available}}</div>
+      <div>
+        <div class="time header {{#if this.label}}hour{{/if}}">
+          {{this.label}}
+        </div>
+        <div
+          class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if this.label}}hour{{/if}}">
+        </div>
+      </div>
     {{/each}}
   </div>
 
-  <div class="times">
+  <div class="event">
     {{#each events}}
-      <div>{{this.available}} {{this.startTime}}-{{this.endTime}}</div>
+      <div>{{this.id}} {{this.available}} {{this.startTime}}-{{this.endTime}}</div>
     {{/each}}
   </div>
 

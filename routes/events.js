@@ -118,32 +118,49 @@ router.post('/:year/:month/:day', async (req, res) => {
   event.id = event.id | 0;
 
   if (event.button === 'delete') {
-    return deleteEvent(event, req, res);
+    return await deleteEvent(event, req, res);
   }
 
   try {
-    let saveData;
+    let saveData = db.Event.build({ available: false });
     if (event.id) {
       saveData = await db.Event.findByPk(event.id);
       if (!saveData) {
         res.status(404).send('Not found');
         return;
       }
-    } else {
-      saveData = db.Event.build();
     }
     saveData.startTime = DateTime.fromSQL(`${dateStr} ${event.startTime}`).toJSDate();
     saveData.endTime = DateTime.fromSQL(`${dateStr} ${event.endTime}`).toJSDate();
     saveData.note = event.note;
+
+    await checkDuplicate(saveData.id, saveData.startTime, saveData.endTime, saveData.available);
+
     await saveData.save();
 
     res.redirect(req.originalUrl);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Error ${error.message}`);
+    res.status(500).send(error.message);
     return;
   }
 });
+
+async function checkDuplicate(id, startTime, endTime, available) {
+  const duplicateEvents = await db.Event.findAll({
+    where: {
+      // Replace 'lt' to 'lte' and 'gt' to 'gte' if you need to disallow adjacent events.
+      startTime: { [Op.lt]: endTime },
+      endTime: { [Op.gt]: startTime },
+      available: { [Op.eq]: available },
+      id: { [Op.ne]: id },
+    },
+  });
+
+  if (duplicateEvents.length > 0) {
+    throw new Error('Duplicated events');
+  }
+}
 
 async function deleteEvent(event, req, res) {
   const existing = await db.Event.findByPk(event.id);
@@ -158,7 +175,7 @@ async function deleteEvent(event, req, res) {
     res.redirect(req.originalUrl);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Error ${error.message}`);
+    res.status(500).send(error.message);
     return;
   }
 }

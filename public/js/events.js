@@ -116,9 +116,9 @@ function init() {
 
     const errors = [];
 
-    if (_event.startTime >= _event.endTime) {
-      errors.push('Start time must be ealier than End time.');
-    }
+    // if (_event.startTime >= _event.endTime) {
+    //   errors.push('Start time must be ealier than End time.');
+    // }
 
     if (errors.length) {
       const msg = errors.join(', ');

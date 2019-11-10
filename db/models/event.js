@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('Start time must be earlier than End time.');
           }
         },
-        duplicatedTime(next) {
+        overwrappedTime(next) {
           (async event => {
             const { id, startTime, endTime, available } = event;
-            const duplicateEvents = await Event.findAll({
+            const overwrapped = await Event.findAll({
               where: {
                 // Replace 'lt' to 'lte' and 'gt' to 'gte' if you need to disallow adjacent events.
                 startTime: { [Op.lt]: endTime },
@@ -35,9 +35,8 @@ module.exports = (sequelize, DataTypes) => {
               },
             });
 
-            if (duplicateEvents.length > 0) {
-              // throw new Error('Duplicated events');
-              next('Duplicated events');
+            if (overwrapped.length > 0) {
+              next('Overwrapped events already exist.');
               return;
             }
             next();

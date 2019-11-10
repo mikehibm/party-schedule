@@ -134,8 +134,6 @@ router.post('/:year/:month/:day', async (req, res) => {
     saveData.endTime = DateTime.fromSQL(`${dateStr} ${event.endTime}`).toJSDate();
     saveData.note = event.note;
 
-    await checkDuplicate(saveData.id, saveData.startTime, saveData.endTime, saveData.available);
-
     await saveData.save();
 
     res.redirect(req.originalUrl);
@@ -145,22 +143,6 @@ router.post('/:year/:month/:day', async (req, res) => {
     return;
   }
 });
-
-async function checkDuplicate(id, startTime, endTime, available) {
-  const duplicateEvents = await db.Event.findAll({
-    where: {
-      // Replace 'lt' to 'lte' and 'gt' to 'gte' if you need to disallow adjacent events.
-      startTime: { [Op.lt]: endTime },
-      endTime: { [Op.gt]: startTime },
-      available: { [Op.eq]: available },
-      id: { [Op.ne]: id },
-    },
-  });
-
-  if (duplicateEvents.length > 0) {
-    throw new Error('Duplicated events');
-  }
-}
 
 async function deleteEvent(event, req, res) {
   const existing = await db.Event.findByPk(event.id);

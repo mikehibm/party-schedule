@@ -22,6 +22,27 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('Start time must be earlier than End time.');
           }
         },
+        duplicatedTime(next) {
+          (async event => {
+            const { id, startTime, endTime, available } = event;
+            const duplicateEvents = await Event.findAll({
+              where: {
+                // Replace 'lt' to 'lte' and 'gt' to 'gte' if you need to disallow adjacent events.
+                startTime: { [Op.lt]: endTime },
+                endTime: { [Op.gt]: startTime },
+                available: { [Op.eq]: available },
+                id: { [Op.ne]: id },
+              },
+            });
+
+            if (duplicateEvents.length > 0) {
+              // throw new Error('Duplicated events');
+              next('Duplicated events');
+              return;
+            }
+            next();
+          })(this);
+        },
       },
     }
   );

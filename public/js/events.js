@@ -27,8 +27,10 @@ function init() {
 
   function openForm(e) {
     const eventId = e.target.getAttribute('data-id') | 0;
-    const startTime = hdnDate.value + ' ' + e.target.getAttribute('data-start') + ':00';
-    const endTime = hdnDate.value + ' ' + e.target.getAttribute('data-end') + ':00';
+    const startTime =
+      hdnDate.value + ' ' + e.target.getAttribute('data-start') + ':00';
+    const endTime =
+      hdnDate.value + ' ' + e.target.getAttribute('data-end') + ':00';
     const booked = e.target.getAttribute('data-booked') === 'true';
 
     divForm.style.display = 'block';
@@ -49,13 +51,17 @@ function init() {
     }
 
     if (eventId) {
-      const selectedElements = document.querySelectorAll(`.events-datail .times .time.selected`);
+      const selectedElements = document.querySelectorAll(
+        `.events-datail .times .time.selected`
+      );
       for (const el of selectedElements) {
         el.classList.remove('selected');
       }
 
       if (booked) {
-        const elements = document.querySelectorAll(`.events-datail .times .time[data-id='${eventId}']`);
+        const elements = document.querySelectorAll(
+          `.events-datail .times .time[data-id='${eventId}']`
+        );
         for (const el of elements) {
           el.classList.add('selected');
         }
@@ -138,6 +144,8 @@ function init() {
   function saveEvent() {
     if (!validate()) return;
 
+    showLoading();
+
     const url = `/events/${_event.id}`;
     const body = JSON.stringify(_event);
     console.log('body = ', body);
@@ -155,7 +163,6 @@ function init() {
         } else {
           throw new Error(data.message || data);
         }
-        hideLoading();
         window.location.href = window.location.href + '';
       })
       .catch(err => {
@@ -171,6 +178,8 @@ function init() {
       return;
     }
 
+    showLoading();
+
     const url = `/events/${_event.id}`;
     return fetch(url, {
       method: 'DELETE',
@@ -180,7 +189,6 @@ function init() {
         if (data.result !== 'ok') {
           throw new Error(data.message || data);
         }
-        hideLoading();
         window.location.href = window.location.href + '';
       })
       .catch(err => {

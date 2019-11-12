@@ -187,4 +187,13 @@ form .buttons button.delete {
   .events-datail .times {
     grid-template-columns: repeat(26, 1fr);
   }
+
+  form .field {
+    display: inline-block;
+    width: 44%;
+  }
+
+  form .field label {
+    width: 5em;
+  }
 }

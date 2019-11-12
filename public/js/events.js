@@ -1,7 +1,7 @@
 function init() {
   let _event = {};
 
-  const form = $id('form');
+  const divForm = $id('divForm');
   const selStartTime = $id('startTime');
   const selEndTime = $id('endTime');
   const txtNote = $id('note');
@@ -9,12 +9,12 @@ function init() {
   const hdnDate = $id('date');
 
   const loading = $id('loading');
-  const btnSave = $id('btnSave');
+  // const btnSave = $id('btnSave');
   const btnDelete = $id('btnDelete');
   const btnClose = $id('btnClose');
 
-  form.addEventListener('submit', showLoading);
-  btnSave.addEventListener('click', saveEvent);
+  divForm.addEventListener('submit', submitForm);
+  // btnSave.addEventListener('click', saveEvent);
   btnDelete.addEventListener('click', deleteEvent);
   btnClose.addEventListener('click', closeForm);
 
@@ -31,7 +31,7 @@ function init() {
     const endTime = hdnDate.value + ' ' + e.target.getAttribute('data-end') + ':00';
     const booked = e.target.getAttribute('data-booked') === 'true';
 
-    form.style.display = 'block';
+    divForm.style.display = 'block';
     _event = {};
 
     if (booked) {
@@ -105,10 +105,17 @@ function init() {
   }
 
   function closeForm() {
-    form.style.display = 'none';
+    divForm.style.display = 'none';
   }
 
-  function saveEvent(e) {
+  function submitForm(e) {
+    // Disable submitting by browser.
+    e.preventDefault();
+
+    saveEvent();
+  }
+
+  function validate() {
     const date = hdnDate.value;
     _event.startTime = `${date} ${selStartTime.value}`;
     _event.endTime = `${date} ${selEndTime.value}`;
@@ -123,10 +130,39 @@ function init() {
     if (errors.length) {
       const msg = errors.join(', ');
       alert(msg);
-
-      e.preventDefault();
-      return;
+      return false;
     }
+    return true;
+  }
+
+  function saveEvent() {
+    if (!validate()) return;
+
+    const url = `/events/${_event.id}`;
+    const body = JSON.stringify(_event);
+    console.log('body = ', body);
+
+    return fetch(url, {
+      method: 'POST',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body,
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.id) {
+          _event = data;
+          console.log('event = ', _event);
+        } else {
+          throw new Error(data.message || data);
+        }
+        hideLoading();
+        window.location.href = window.location.href + '';
+      })
+      .catch(err => {
+        console.error(err);
+        hideLoading();
+        alert(err.message);
+      });
   }
 
   function deleteEvent(e) {
@@ -134,6 +170,24 @@ function init() {
       e.preventDefault();
       return;
     }
+
+    const url = `/events/${_event.id}`;
+    return fetch(url, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.result !== 'ok') {
+          throw new Error(data.message || data);
+        }
+        hideLoading();
+        window.location.href = window.location.href + '';
+      })
+      .catch(err => {
+        console.error(err);
+        hideLoading();
+        alert(err.message);
+      });
   }
 }
 

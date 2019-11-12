@@ -31,9 +31,7 @@ router.get('/', async (req, res) => {
       order: [['available', 'DESC'], ['startTime', 'ASC']],
     });
 
-    setTimeout(() => {
-      res.json(list);
-    }, 400); // This delay is for testing purpose only.
+    res.json(list);
   } catch (error) {
     console.error(error);
     res.status(500).send(`Error ${error.message}`);
@@ -108,14 +106,9 @@ router.get('/:year/:month/:day', async (req, res) => {
   }
 });
 
-router.post('/:year/:month/:day', async (req, res) => {
-  const year = req.params.year | 0;
-  const month = req.params.month | 0;
-  const day = req.params.day | 0;
-  const date = DateTime.local(year, month, day);
-  const dateStr = date.toFormat('yyyy-MM-dd');
+router.post('/:id', async (req, res) => {
   const event = req.body;
-  event.id = event.id | 0;
+  event.id = req.params['id'] | 0;
 
   if (event.button === 'delete') {
     return await deleteEvent(event, req, res);
@@ -126,40 +119,41 @@ router.post('/:year/:month/:day', async (req, res) => {
     if (event.id) {
       saveData = await db.Event.findByPk(event.id);
       if (!saveData) {
-        res.status(404).send('Not found');
+        res.status(404).json({ result: 'error', message: 'Not found' });
         return;
       }
     }
-    saveData.startTime = DateTime.fromSQL(`${dateStr} ${event.startTime}`).toJSDate();
-    saveData.endTime = DateTime.fromSQL(`${dateStr} ${event.endTime}`).toJSDate();
+    saveData.startTime = DateTime.fromSQL(`${event.startTime}`).toJSDate();
+    saveData.endTime = DateTime.fromSQL(`${event.endTime}`).toJSDate();
     saveData.note = event.note;
 
-    await saveData.save();
-
-    res.redirect(req.originalUrl);
+    const { id } = await saveData.save();
+    const rtnEvent = await db.Event.findByPk(id);
+    res.json(rtnEvent);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error.message);
+    res.status(500).json({ result: 'error', message: error.message });
     return;
   }
 });
 
-async function deleteEvent(event, req, res) {
-  const existing = await db.Event.findByPk(event.id);
+router.delete('/:id', async (req, res) => {
+  const id = req.params['id'] | 0;
+
+  const existing = await db.Event.findByPk(id);
   if (!existing) {
-    res.status(404).send('Not found');
+    res.status(404).json({ result: 'error', message: 'Not found' });
     return;
   }
 
   try {
     existing.destroy();
-
-    res.redirect(req.originalUrl);
+    res.json({ result: 'ok' });
   } catch (error) {
     console.error(error);
-    res.status(500).send(error.message);
+    res.status(500).json({ result: 'error', message: error.message });
     return;
   }
-}
+});
 
 module.exports = router;

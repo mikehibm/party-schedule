@@ -40,13 +40,15 @@ router.get('/', async (req, res) => {
   for (let i = 0; i < 35; i++) {
     const available =
       events.filter(
-        i => new Date(i.startTime) >= d && new Date(i.endTime) < new Date(new Date(d).setDate(d.getDate() + 1))
+        i =>
+          new Date(i.startTime) >= d &&
+          new Date(i.endTime) < new Date(new Date(d).setDate(d.getDate() + 1))
       ).length > 0;
 
     const day = {
       date: d,
-      year,
-      month,
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
       day: d.getDate(),
       isCurrentMonth: d.getMonth() === month - 1,
       available,

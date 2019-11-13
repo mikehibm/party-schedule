@@ -4,11 +4,12 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/models');
 const { DateTime } = require('luxon');
+const auth = require('./auth-helper');
 
 // Get events
 //   d=yyyy-MM-dd
 //   id=999
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     let where = {};
 
@@ -28,7 +29,10 @@ router.get('/', async (req, res) => {
 
     const list = await db.Event.findAll({
       where,
-      order: [['available', 'DESC'], ['startTime', 'ASC']],
+      order: [
+        ['available', 'DESC'],
+        ['startTime', 'ASC'],
+      ],
     });
 
     res.json(list);
@@ -39,7 +43,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:year/:month/:day', async (req, res) => {
+router.get('/:year/:month/:day', auth, async (req, res) => {
   const year = req.params.year | 0;
   const month = req.params.month | 0;
   const day = req.params.day | 0;
@@ -70,14 +74,22 @@ router.get('/:year/:month/:day', async (req, res) => {
 
   try {
     const events = await db.Event.findAll({
-      where: { startTime: { [Op.gte]: startOfDay.toJSDate() }, endTime: { [Op.lt]: endOfDay.toJSDate() } },
-      order: [['available', 'DESC'], ['startTime', 'ASC']],
+      where: {
+        startTime: { [Op.gte]: startOfDay.toJSDate() },
+        endTime: { [Op.lt]: endOfDay.toJSDate() },
+      },
+      order: [
+        ['available', 'DESC'],
+        ['startTime', 'ASC'],
+      ],
     });
 
     for (const e of events) {
       const eventStartTimeStr = DateTime.fromSQL(e.startTime).toFormat('HH:mm');
       const eventEndTimeStr = DateTime.fromSQL(e.endTime).toFormat('HH:mm');
-      const filteredTimes = times.filter(t => t.startTime >= eventStartTimeStr && t.endTime <= eventEndTimeStr);
+      const filteredTimes = times.filter(
+        t => t.startTime >= eventStartTimeStr && t.endTime <= eventEndTimeStr
+      );
       for (const t of filteredTimes) {
         t.available = e.available;
         t.id = e.id;
@@ -106,13 +118,9 @@ router.get('/:year/:month/:day', async (req, res) => {
   }
 });
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', auth, async (req, res) => {
   const event = req.body;
   event.id = req.params['id'] | 0;
-
-  if (event.button === 'delete') {
-    return await deleteEvent(event, req, res);
-  }
 
   try {
     let saveData = db.Event.build({ available: false });
@@ -137,7 +145,7 @@ router.post('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   const id = req.params['id'] | 0;
 
   const existing = await db.Event.findByPk(id);

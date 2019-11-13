@@ -8,8 +8,16 @@ module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define(
     'Event',
     {
-      startTime: { type: DataTypes.DATE, allowNull: false, validate: { isDate: true } },
-      endTime: { type: DataTypes.DATE, allowNull: false, validate: { isDate: true } },
+      startTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: { isDate: true },
+      },
+      endTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: { isDate: true },
+      },
       available: { type: DataTypes.BOOLEAN, allowNull: false },
       note: { type: DataTypes.STRING(1000), validate: { len: [0, 1000] } },
     },
@@ -37,6 +45,30 @@ module.exports = (sequelize, DataTypes) => {
 
             if (overwrapped.length > 0) {
               next('Overwrapped events already exist.');
+              return;
+            }
+            next();
+          })(this);
+        },
+        availableBlock(next) {
+          if (this.available == true) {
+            next();
+            return;
+          }
+
+          (async event => {
+            const { id, startTime, endTime, available } = event;
+            const availableBlock = await Event.findAll({
+              where: {
+                startTime: { [Op.lte]: startTime },
+                endTime: { [Op.gte]: endTime },
+                available: { [Op.eq]: true },
+                id: { [Op.ne]: id },
+              },
+            });
+
+            if (availableBlock.length === 0) {
+              next('Specified time range is not available.');
               return;
             }
             next();

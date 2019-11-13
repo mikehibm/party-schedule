@@ -20,17 +20,39 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Enable Session
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const sessionStore = new MySQLStore({
+  host: process.env.MYSQL_SERVER,
+  port: 3306,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+});
+
+app.use(
+  session({
+    key: 'mysession',
+    secret: 'komfdahjkh434rewkjh3213',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Define routes
 app.use('/events', eventsRouter);
 app.use('/users', usersRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

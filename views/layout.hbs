@@ -11,7 +11,23 @@
 </head>
 
 <body>
-  {{{body}}}
+  <header class="app_header">
+    <h1>Party Schedule</h1>
+    <div class="username">
+      {{user.name}}
+      {{#if user}}
+        <a href="/login/logout">Logout</a>
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="main">
+    {{{body}}}
+  </div>
+
+  <footer>
+    &copy;2019 My Company
+  </footer>
 </body>
 
 </html>

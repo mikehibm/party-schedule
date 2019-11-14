@@ -3,9 +3,10 @@ const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/models/');
+const auth = require('./auth-helper');
 
 /* GET home page. */
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const dayHeaders = [
     { name: 'Sun', weekend: true },
     { name: 'Mon' },
@@ -58,7 +59,7 @@ router.get('/', async (req, res) => {
   }
 
   res.render('index', {
-    title: `Schedule - ${month}/${year}`,
+    title: `${month}/${year}`,
     dayHeaders,
     days,
     year,

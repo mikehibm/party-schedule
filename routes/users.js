@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-
-var db = require('../db/models/');
+const express = require('express');
+const router = express.Router();
+const db = require('../db/models/');
+const auth = require('./auth-helper');
 
 /* GET users */
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const users = await db.User.findAll();
   if (!users) {
     console.log('ユーザーデータを取得できませんでした');

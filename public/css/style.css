@@ -4,9 +4,12 @@
 
 body {
   margin: 0;
-  padding: 24px;
+  padding: 0px;
+  height: 100vh;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
   background-color: beige;
+  display: grid;
+  grid-template-rows: 4em auto 3em;
 }
 
 h1,
@@ -19,6 +22,35 @@ h5 {
 
 a {
   color: #00b7ff;
+}
+
+.app_header {
+  padding: 0.4em;
+  background-color: #eee;
+  color: #444;
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+}
+.app_header h1 {
+  font-size: 180%;
+}
+
+.app_header .username {
+  padding-top: 8px;
+  text-align: center;
+  font-size: 90%;
+}
+
+footer {
+  padding: 1em 0.4em;
+  background-color: #ccc;
+  color: #444;
+  font-size: 80%;
+  text-align: center;
+}
+
+.main {
+  padding: 20px;
 }
 
 .calendar-container {
@@ -56,8 +88,9 @@ a {
   color: salmon;
 }
 .calendar-buttons {
-  padding: 1em;
+  padding: 0 0 0.6em;
   text-align: center;
+  font-size: 180%;
 }
 
 .events-datail .times {

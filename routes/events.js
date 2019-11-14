@@ -102,7 +102,7 @@ router.get('/:year/:month/:day', auth, async (req, res) => {
     const timesForSelect = times.filter(t => t.id !== 0);
 
     res.render('events', {
-      title: `Events - ${month}/${day}/${year}`,
+      title: `${month}/${day}/${year}`,
       year,
       month,
       day,

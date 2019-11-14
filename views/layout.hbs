@@ -14,8 +14,8 @@
   <header class="app_header">
     <h1>Party Schedule</h1>
     <div class="username">
-      {{user.name}}
       {{#if user}}
+        {{user.name}}
         <a href="/login/logout">Logout</a>
       {{/if}}
     </div>

@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
     req.session.user = user;
     res.redirect('/');
   } catch (err) {
-    res.rener('login', { message: err.message });
+    res.render('login', { message: err.message });
   }
 });
 

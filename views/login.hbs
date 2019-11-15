@@ -10,6 +10,11 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password">
     </div>
+    {{#if message}}
+      <div class="message">
+        {{message}}
+      </div>
+    {{/if}}
     <div class="buttons">
       <button id="submit" name="button" type="submit" value="submit">Submit</button>
       <a href="/login/reset" style="font-size: 90%;">Forgot password...</a>

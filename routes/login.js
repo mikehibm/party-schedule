@@ -13,13 +13,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  if (req.body.button === 'forgot') {
-    res.redirect('/login/reset');
-    return;
-  }
-
   const { id, password } = req.body;
 
+  req.session.user = null;
   try {
     const user = await db.User.findOne({
       where: {
@@ -28,7 +24,7 @@ router.post('/', async (req, res) => {
       },
     });
     if (!user) {
-      res.rener('login', { message: 'Invalid login' });
+      res.render('login', { title: 'Login', message: 'Invalid login' });
       return;
     }
 
@@ -36,7 +32,7 @@ router.post('/', async (req, res) => {
     req.session.user = user;
     res.redirect('/');
   } catch (err) {
-    res.render('login', { message: err.message });
+    res.render('login', { title: 'Login', message: 'Invalid login' });
   }
 });
 

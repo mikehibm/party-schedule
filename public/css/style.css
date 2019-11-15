@@ -89,6 +89,13 @@ footer {
   text-align: center;
 }
 
+.login-container .message,
+.reset-container .message {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
 .login-container form .buttons button,
 .reset-container form .buttons button {
   margin: 0.2em 0.8em;

@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "eslint": "^6.6.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "notiflix": "^1.9.1"
   },
   "nodemonConfig": {
     "ignore": [

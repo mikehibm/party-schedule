@@ -85,7 +85,9 @@ function init() {
       .catch(err => {
         console.error(err);
         hideLoading();
-        alert(err.message);
+        // alert(err.message);
+        // eslint-disable-next-line no-undef
+        Notiflix.Notify.Failure(err.message);
       });
   }
 
@@ -135,7 +137,9 @@ function init() {
 
     if (errors.length) {
       const msg = errors.join(', ');
-      alert(msg);
+      // alert(msg);
+      // eslint-disable-next-line no-undef
+      Notiflix.Notify.Failure(msg);
       return false;
     }
     return true;
@@ -168,34 +172,51 @@ function init() {
       .catch(err => {
         console.error(err);
         hideLoading();
-        alert(err.message);
+        // alert(err.message);
+        // eslint-disable-next-line no-undef
+        Notiflix.Notify.Failure(err.message);
       });
   }
 
   function deleteEvent(e) {
-    if (!confirm('Are you sure to delete the event?')) {
-      e.preventDefault();
-      return;
-    }
+    e.preventDefault();
 
-    showLoading();
+    // eslint-disable-next-line no-undef
+    Notiflix.Confirm.Show(
+      'Confirm Delete',
+      'Are you sure to delete the event?',
+      'DELETE',
+      'Cancel',
 
-    const url = `/events/${_event.id}`;
-    return fetch(url, {
-      method: 'DELETE',
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.result !== 'ok') {
-          throw new Error(data.message || data);
-        }
-        window.location.href = window.location.href + '';
-      })
-      .catch(err => {
-        console.error(err);
-        hideLoading();
-        alert(err.message);
-      });
+      // ok button callback
+      function() {
+        showLoading();
+
+        const url = `/events/${_event.id}`;
+        return fetch(url, {
+          method: 'DELETE',
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.result !== 'ok') {
+              throw new Error(data.message || data);
+            }
+            window.location.href = window.location.href + '';
+          })
+          .catch(err => {
+            console.error(err);
+            hideLoading();
+            // alert(err.message);
+            // eslint-disable-next-line no-undef
+            Notiflix.Notify.Failure(err.message);
+          });
+      },
+
+      // cancel button callback
+      function() {
+        console.log('Delete canceled.');
+      }
+    );
   }
 }
 

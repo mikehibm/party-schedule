@@ -27,12 +27,13 @@ a {
 .app_header {
   padding: 0.4em;
   background-color: #eee;
-  color: #444;
+  color: #44f;
   display: grid;
   grid-template-columns: 8fr 4fr;
 }
 .app_header h1 {
-  font-size: 180%;
+  font-size: 188%;
+  font-weight: bold;
 }
 
 .app_header .username {
@@ -51,6 +52,7 @@ footer {
 
 .main {
   padding: 20px;
+  background-image: url('/android-chrome-512x512.png');
 }
 
 .login-container,

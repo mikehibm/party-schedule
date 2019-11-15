@@ -24,15 +24,17 @@ router.post('/', async (req, res) => {
       },
     });
     if (!user) {
-      res.render('login', { title: 'Login', message: 'Invalid login' });
-      return;
+      throw new Error('Invalid login');
     }
 
     // eslint-disable-next-line require-atomic-updates
     req.session.user = user;
     res.redirect('/');
   } catch (err) {
-    res.render('login', { title: 'Login', message: 'Invalid login' });
+    // Wait for a couple of seconds before showing error message in order to make it harder to execute dictionary attack.
+    setTimeout(() => {
+      res.render('login', { title: 'Login', message: 'Invalid login' });
+    }, 3000);
   }
 });
 

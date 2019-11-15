@@ -53,6 +53,51 @@ footer {
   padding: 20px;
 }
 
+.login-container,
+.reset-container {
+  padding: 1em;
+  width: 320px;
+  margin: auto;
+  background-color: #efefef;
+  border: 3px solid #888;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px #aaaaaa;
+}
+
+.login-container form,
+.reset-container form {
+  display: grid;
+  row-gap: 10px;
+}
+
+.login-container .field,
+.reset-container .field {
+  display: grid;
+  grid-template-columns: 5em auto;
+  column-gap: 10px;
+}
+
+.login-container .field label,
+.reset-container .field label {
+  text-align: right;
+}
+
+.login-container form .buttons,
+.reset-container form .buttons {
+  margin: 1em 0.6em;
+  padding: 0.4em;
+  text-align: center;
+}
+
+.login-container form .buttons button,
+.reset-container form .buttons button {
+  margin: 0.2em 0.8em;
+  padding: 0.4em;
+  font-size: 120%;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 .calendar-container {
   display: grid;
   grid-gap: 2px;
@@ -158,35 +203,35 @@ footer {
   box-shadow: 5px 5px 5px #aaaaaa;
 }
 
-form .field {
+.events-datail form .field {
   width: 100%;
   margin-bottom: 0.8em;
 }
 
-form .field label {
+.events-datail form .field label {
   display: inline-block;
   width: 20%;
   text-align: right;
 }
 
-form .field input,
-form .field textarea,
-form .field select {
+.events-datail form .field input,
+.events-datail form .field textarea,
+.events-datail form .field select {
   width: 74%;
   font-size: 160%;
 }
 
-form .field select {
+.events-datail form .field select {
   max-width: 8em;
 }
 
-form .buttons {
+.events-datail form .buttons {
   margin: 1em 0.6em;
   padding: 0.4em;
   text-align: center;
 }
 
-form .buttons button {
+.events-datail form .buttons button {
   margin: 0.2em 1em;
   padding: 0.4em;
   font-size: 120%;
@@ -194,11 +239,11 @@ form .buttons button {
   cursor: pointer;
 }
 
-form .buttons button.save {
+.events-datail form .buttons button.save {
   font-weight: bold;
   color: blue;
 }
-form .buttons button.delete {
+.events-datail form .buttons button.delete {
   color: red;
 }
 
@@ -221,12 +266,12 @@ form .buttons button.delete {
     grid-template-columns: repeat(26, 1fr);
   }
 
-  form .field {
+  .events-datail form .field {
     display: inline-block;
     width: 44%;
   }
 
-  form .field label {
+  .events-datail form .field label {
     width: 5em;
   }
 }

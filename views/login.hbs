@@ -2,13 +2,17 @@
 
 <div class="login-container">
   <form method="POST" action="">
-    <label for="id">Id</label>
-    <input type="text" id="id" name="id" maxlength="20" />
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password">
+    <div class="field">
+      <label for="id">Email</label>
+      <input type="text" id="id" name="id" maxlength="20" />
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password">
+    </div>
     <div class="buttons">
       <button id="submit" name="button" type="submit" value="submit">Submit</button>
-      <button id="forgot" name="button" type="submit" value="forgot">Forgot password</button>
+      <a href="/login/reset" style="font-size: 90%;">Forgot password...</a>
     </div>
   </form>
 </div>

@@ -87,7 +87,7 @@ function init() {
         hideLoading();
         // alert(err.message);
         // eslint-disable-next-line no-undef
-        Notiflix.Notify.Failure(err.message);
+        Notiflix.Report.Failure('Error', err.message);
       });
   }
 
@@ -139,7 +139,7 @@ function init() {
       const msg = errors.join(', ');
       // alert(msg);
       // eslint-disable-next-line no-undef
-      Notiflix.Notify.Failure(msg);
+      Notiflix.Report.Failure('Error', msg);
       return false;
     }
     return true;
@@ -174,7 +174,7 @@ function init() {
         hideLoading();
         // alert(err.message);
         // eslint-disable-next-line no-undef
-        Notiflix.Notify.Failure(err.message);
+        Notiflix.Report.Failure('Error', err.message);
       });
   }
 
@@ -208,7 +208,7 @@ function init() {
             hideLoading();
             // alert(err.message);
             // eslint-disable-next-line no-undef
-            Notiflix.Notify.Failure(err.message);
+            Notiflix.Report.Failure('Error', err.message);
           });
       },
 
@@ -221,3 +221,10 @@ function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
+// eslint-disable-next-line no-undef
+Notiflix.Notify.Init();
+// eslint-disable-next-line no-undef
+Notiflix.Report.Init();
+// eslint-disable-next-line no-undef
+Notiflix.Confirm.Init();

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('./session');
 
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
@@ -22,25 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Enable Session
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
-const sessionStore = new MySQLStore({
-  host: process.env.MYSQL_SERVER,
-  port: 3306,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-});
-
-app.use(
-  session({
-    key: 'mysession',
-    secret: 'komfdahjkh434rewkjh3213',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session);
 
 // Define routes
 app.use('/events', eventsRouter);

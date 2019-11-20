@@ -52,7 +52,7 @@ footer {
 
 .main {
   padding: 20px;
-  background-image: url('/android-chrome-512x512.png');
+  /* background-image: url('/android-chrome-512x512.png'); */
 }
 
 .login-container,
@@ -184,6 +184,10 @@ footer {
 
 .events-datail .times .time.available {
   background-color: white;
+}
+
+.events-datail .times .time.available,
+.events-datail .times .time.admin {
   cursor: pointer;
 }
 

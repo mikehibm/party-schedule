@@ -14,8 +14,7 @@
           {{this.label}}
         </div>
         <div data-id="{{this.id}}" data-start="{{this.startTime}}" data-end="{{this.endTime}}"
-          data-booked="{{this.booked}}"
-          class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if this.first}}first{{/if}} {{#if this.last}}last{{/if}} {{#if this.label}}hour{{/if}}">
+          class="time {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}} {{#if ../user.isAdmin}}admin {{/if}} {{#if this.first}}first{{/if}} {{#if this.last}}last{{/if}} {{#if this.label}}hour{{/if}}">
         </div>
       </div>
     {{/each}}
@@ -48,6 +47,7 @@
       </div>
 
       <div class="buttons">
+        <a id="btnNewEvent" href="#">New Event</a>
         <button type="submit" id="btnSave" name="button" value="save" class="btn save">Save</button>
         <button type="button" id="btnDelete" name="button" value="delete" class="btn delete"
           style="display: none">DELETE</button>

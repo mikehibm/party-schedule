@@ -68,7 +68,6 @@ router.get('/', auth, async (req, res) => {
     nextYear: month < 12 ? year : year + 1,
     prevMonth: month > 1 ? month - 1 : 12,
     nextMonth: month < 12 ? month + 1 : 1,
-    isAdmin: res.locals.user.isAdmin,
   });
 });
 

@@ -44,6 +44,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.get('/:year/:month/:day', auth, async (req, res) => {
+  const user = res.locals.user;
   const year = req.params.year | 0;
   const month = req.params.month | 0;
   const day = req.params.day | 0;
@@ -99,7 +100,9 @@ router.get('/:year/:month/:day', auth, async (req, res) => {
       }
     }
 
-    const timesForSelect = times.filter(t => t.id !== 0);
+    // 管理者ユーザーの場合は時間枠全てを選択可能。
+    // 通常ユーザーの場合は予約可能(available)な枠の時間のみ選択可能に。
+    const timesForSelect = user.isAdmin ? times : times.filter(t => t.id !== 0);
 
     res.render('events', {
       title: `${month}/${day}/${year}`,
@@ -123,7 +126,7 @@ router.post('/:id', auth, async (req, res) => {
   event.id = req.params['id'] | 0;
 
   try {
-    let saveData = db.Event.build({ available: false });
+    let saveData = db.Event.build({ available: event.available });
     if (event.id) {
       saveData = await db.Event.findByPk(event.id);
       if (!saveData) {

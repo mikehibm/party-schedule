@@ -12,31 +12,42 @@ function init() {
   // const btnSave = $id('btnSave');
   const btnDelete = $id('btnDelete');
   const btnClose = $id('btnClose');
+  const btnNewEvent = $id('btnNewEvent');
 
   divForm.addEventListener('submit', submitForm);
   // btnSave.addEventListener('click', saveEvent);
   btnDelete.addEventListener('click', deleteEvent);
   btnClose.addEventListener('click', closeForm);
+  btnNewEvent.addEventListener('click', openNewEvent);
 
   const elTimes = document.querySelectorAll(
-    '.events-datail .times .time.available, .events-datail .times .time.booked'
+    '.time.available, .time.booked, .time.admin'
   );
   for (let el of elTimes) {
     el.addEventListener('click', openForm);
   }
 
-  function openForm(e) {
-    const eventId = e.target.getAttribute('data-id') | 0;
-    const startTime =
-      hdnDate.value + ' ' + e.target.getAttribute('data-start') + ':00';
-    const endTime =
-      hdnDate.value + ' ' + e.target.getAttribute('data-end') + ':00';
-    const booked = e.target.getAttribute('data-booked') === 'true';
+  function openNewEvent(e) {
+    e.preventDefault();
+    openForm(e, true);
+  }
+
+  function openForm(e, newEvent) {
+    const el = e.target;
+    const eventId = el.getAttribute('data-id') | 0;
+    const startTime = `${hdnDate.value} ${el.getAttribute('data-start')}:00`;
+    const endTime = `${hdnDate.value} ${el.getAttribute('data-end')}:00`;
+    const booked = el.classList.contains('booked');
+    const isAdmin = el.classList.contains('admin');
 
     divForm.style.display = 'block';
     _event = {};
 
-    if (booked) {
+    btnNewEvent.setAttribute('data-id', el.getAttribute('data-id'));
+    btnNewEvent.setAttribute('data-start', el.getAttribute('data-start'));
+    btnNewEvent.setAttribute('data-end', el.getAttribute('data-end'));
+
+    if (booked || (eventId !== 0 && isAdmin && !newEvent)) {
       showLoading();
       fetchEvent(eventId);
     } else {
@@ -45,6 +56,7 @@ function init() {
         startTime,
         endTime,
         note: '',
+        available: eventId === 0,
       };
       showEvent();
       hideLoading();
@@ -102,6 +114,8 @@ function init() {
     txtNote.value = _event.note;
 
     btnDelete.style.display = _event.id ? 'inline' : 'none';
+    btnNewEvent.style.display =
+      _event.id && _event.available ? 'inline' : 'none';
   }
 
   function showLoading() {
@@ -167,7 +181,8 @@ function init() {
         } else {
           throw new Error(data.message || data);
         }
-        window.location.href = window.location.href + '';
+        // window.location.href = window.location.href + '';
+        window.location.reload();
       })
       .catch(err => {
         console.error(err);
@@ -201,7 +216,8 @@ function init() {
             if (data.result !== 'ok') {
               throw new Error(data.message || data);
             }
-            window.location.href = window.location.href + '';
+            // window.location.href = window.location.href + '';
+            window.location.reload();
           })
           .catch(err => {
             console.error(err);

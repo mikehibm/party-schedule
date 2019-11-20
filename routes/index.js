@@ -52,7 +52,7 @@ router.get('/', auth, async (req, res) => {
       month: d.getMonth() + 1,
       day: d.getDate(),
       isCurrentMonth: d.getMonth() === month - 1,
-      available,
+      available: available,
     };
     days.push(day);
     d.setDate(d.getDate() + 1);
@@ -68,6 +68,7 @@ router.get('/', auth, async (req, res) => {
     nextYear: month < 12 ? year : year + 1,
     prevMonth: month > 1 ? month - 1 : 12,
     nextMonth: month < 12 ? month + 1 : 1,
+    isAdmin: res.locals.user.isAdmin,
   });
 });
 

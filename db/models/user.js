@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue('password', User.hashPwd(value));
         },
       },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       freezeTableName: true,

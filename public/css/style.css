@@ -109,18 +109,19 @@ footer {
 
 .calendar-container {
   display: grid;
-  grid-gap: 2px;
-  border: 1px solid blue;
+  grid-gap: 1px;
+  border: 2px solid blue;
   grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1.4em;
   grid-auto-rows: 11vh;
   text-align: center;
-  background-color: lightblue;
+  background-color: lightgray;
 }
 
 .calendar-item {
   border: none;
-  background-color: gray;
-  color: darkgray;
+  background-color: #eee;
+  color: #888;
 }
 .calendar-item.current {
   background-color: white;

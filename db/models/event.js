@@ -75,6 +75,31 @@ module.exports = (sequelize, DataTypes) => {
           })(this);
         },
       },
+      hooks: {
+        beforeDestroy: async (event, options) => {
+          console.log('beforeDestroy: ', event, options);
+
+          if (!event.available) {
+            return;
+          }
+
+          const { id, startTime, endTime, available } = event;
+          const bookedEvents = await Event.findAll({
+            where: {
+              startTime: { [Op.gte]: startTime },
+              endTime: { [Op.lte]: endTime },
+              available: { [Op.eq]: false },
+              id: { [Op.ne]: id },
+            },
+          });
+
+          if (bookedEvents.length !== 0) {
+            throw new Error(
+              'Cannot delete this block because it has one or more booked events.'
+            );
+          }
+        },
+      },
     }
   );
   Event.associate = function(models) {

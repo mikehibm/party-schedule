@@ -158,7 +158,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 
   try {
-    existing.destroy();
+    await existing.destroy();
     res.json({ result: 'ok' });
   } catch (error) {
     console.error(error);

@@ -25,11 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
       tableName: 'events',
       validate: {
+        //
+        // Start time must be earlier than End time.
         startTimeAndEndTime() {
           if (this.startTime >= this.endTime) {
             throw new Error('Start time must be earlier than End time.');
           }
         },
+        //
+        // Events must not overwrap each other.
         overwrappedTime(next) {
           (async event => {
             const { id, startTime, endTime, available } = event;
@@ -50,35 +54,71 @@ module.exports = (sequelize, DataTypes) => {
             next();
           })(this);
         },
+        //
+        // 1. If updating an available block (white),
+        //  check it has existing events (yellow) within its time range and verify the new time range contains all the existing events.
+        // 2. If updateing a booked event (yellow),
+        //  verify that it is within an available block (white).
         availableBlock(next) {
-          if (this.available == true) {
-            next();
-            return;
-          }
-
-          (async event => {
-            const { id, startTime, endTime, available } = event;
-            const availableBlock = await Event.findAll({
-              where: {
-                startTime: { [Op.lte]: startTime },
-                endTime: { [Op.gte]: endTime },
-                available: { [Op.eq]: true },
+          if (this.available) {
+            (async event => {
+              const {
+                id,
+                startTime,
+                endTime,
+                available,
+              } = event._previousDataValues;
+              const where = {
+                startTime: { [Op.gte]: startTime },
+                endTime: { [Op.lte]: endTime },
+                available: { [Op.eq]: false },
                 id: { [Op.ne]: id },
-              },
-            });
+              };
+              const minStartTime = await Event.min('startTime', { where });
+              const maxEndTime = await Event.max('endTime', { where });
 
-            if (availableBlock.length === 0) {
-              next('Specified time range is not available.');
-              return;
-            }
-            next();
-          })(this);
+              if (!minStartTime && !maxEndTime) {
+                next();
+                return;
+              }
+
+              if (
+                minStartTime < event.startTime ||
+                maxEndTime > event.endTime
+              ) {
+                next(
+                  'Cannot update this block because existing events will be out of available time range. Please modify existing events first.'
+                );
+                return;
+              }
+              next();
+            })(this);
+          } else {
+            (async event => {
+              const { id, startTime, endTime, available } = event;
+              const availableBlock = await Event.findAll({
+                where: {
+                  startTime: { [Op.lte]: startTime },
+                  endTime: { [Op.gte]: endTime },
+                  available: { [Op.eq]: true },
+                  id: { [Op.ne]: id },
+                },
+              });
+
+              if (availableBlock.length === 0) {
+                next('Specified time range is not available.');
+                return;
+              }
+              next();
+            })(this);
+          }
         },
       },
       hooks: {
+        //
+        // Make sure that an available block (white) is not deleted
+        // when it has booked events (yellow) within its time range.
         beforeDestroy: async (event, options) => {
-          console.log('beforeDestroy: ', event, options);
-
           if (!event.available) {
             return;
           }

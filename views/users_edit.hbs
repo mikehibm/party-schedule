@@ -1,0 +1,45 @@
+<h3>User</h3>
+<div class="useredit">
+
+  <div class="top_buttons">
+    <button type="button" id="btnDelete">Delete</button>
+    <button type="button" id="btnChangePwd">Change Password</button>
+  </div>
+
+  <form action="/users/edit/{{user.id}}" method="POST">
+    {{#if error}}
+      <p class="error">
+        {{error}}
+      </p>
+    {{/if}}
+    {{#if message}}
+      <p class="message">
+        {{message}}
+      </p>
+    {{/if}}
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" name="name" value="{{user.name}}" />
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" name="email" value="{{user.email}}" />
+    </div>
+    <div class="field">
+      <label for="isAdmin">Admin</label>
+      <input type="checkbox" name="isAdmin" {{#if user.isAdmin}}checked{{/if}} value="1" />
+    </div>
+
+    {{#if isNew }}
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password" value="{{user.password}}" />
+      </div>
+    {{/if}}
+
+    <div class="buttons">
+      <button type="submit" id="btnSave" name="save">Save</button>
+      <button type="button" id="btnBack" name="back">Go Back</button>
+    </div>
+  </form>
+</div>

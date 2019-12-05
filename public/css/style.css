@@ -332,6 +332,53 @@ footer {
   background-color: yellow;
 }
 
+.useredit {
+  padding: 1em;
+  background-color: lightgray;
+  border-radius: 8px;
+}
+
+.useredit form {
+  display: grid;
+  row-gap: 1em;
+}
+
+.useredit form .field {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  font-size: 120%;
+}
+
+.useredit .top_buttons {
+  margin: 2em;
+}
+.useredit .top_buttons button {
+  color: red;
+}
+
+.useredit #btnChangePwd {
+  color: #444;
+}
+
+.useredit .buttons {
+  margin: 2em;
+}
+
+.useredit #btnSave {
+  color: blue;
+  font-weight: bold;
+}
+
+.useredit .error {
+  color: red;
+  font-weight: bold;
+}
+
+.useredit .message {
+  color: blue;
+  font-weight: bold;
+}
+
 @media screen and (min-width: 480px) {
   .app_header {
     grid-template-areas: unset;

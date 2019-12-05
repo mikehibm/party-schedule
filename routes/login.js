@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   const { id, password } = req.body;
 
-  req.session.user = null;
+  req.session.loginUser = null;
   try {
     const user = await db.User.findOne({
       where: {
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     }
 
     // eslint-disable-next-line require-atomic-updates
-    req.session.user = user;
+    req.session.loginUser = user;
     res.redirect('/');
   } catch (err) {
     // Wait for a couple of seconds before showing error message in order to make it harder to execute dictionary attack.

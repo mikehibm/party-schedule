@@ -12,7 +12,7 @@
     <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">
       <div>{{this.day}}</div>
       <div class="calendar-item-link">
-        {{#if ../user.isAdmin}}
+        {{#if ../loginUser.isAdmin}}
           {{#if this.available}}
             <a href="/events/{{this.year}}/{{this.month}}/{{this.day}}">◯</a>
           {{else}}

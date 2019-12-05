@@ -44,7 +44,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.get('/:year/:month/:day', auth, async (req, res) => {
-  const user = res.locals.user;
+  const user = res.locals.loginUser;
   const year = req.params.year | 0;
   const month = req.params.month | 0;
   const day = req.params.day | 0;

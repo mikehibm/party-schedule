@@ -1,5 +1,7 @@
 'use strict';
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const crypto = require('crypto');
 
 module.exports = (sequelize, DataTypes) => {
@@ -8,21 +10,26 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING(50),
+        allowNull: false,
         validate: {
+          notEmpty: true,
           len: [2, 50],
         },
       },
       email: {
         type: DataTypes.STRING(300),
+        allowNull: false,
         validate: {
+          notEmpty: true,
           isEmail: true,
-          isUnique: true,
         },
       },
       password: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(200),
+        allowNull: false,
         validate: {
-          len: [6, 20],
+          notEmpty: true,
+          len: [1, 200],
         },
         set(value) {
           this.setDataValue('password', User.hashPwd(value));
@@ -30,12 +37,34 @@ module.exports = (sequelize, DataTypes) => {
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
         defaultValue: false,
       },
     },
     {
       freezeTableName: true,
       tableName: 'users',
+      validate: {
+        //
+        // User's email must be unique.
+        isEmailUnique(next) {
+          (async user => {
+            const { id, email } = user;
+            const existing = await User.findAll({
+              where: {
+                email,
+                id: { [Op.ne]: id },
+              },
+            });
+
+            if (existing.length > 0) {
+              next('The same email address already exists.');
+              return;
+            }
+            next();
+          })(this);
+        },
+      },
     }
   );
   User.associate = function(models) {
@@ -43,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.hashPwd = function(s) {
+    if (!s) return s;
     const shasum = crypto.createHash('sha1');
     shasum.update(s);
     return shasum.digest('hex');

@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const db = require('./');
 
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define(

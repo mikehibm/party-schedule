@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/models/');
-const auth = require('./auth-helper');
+const authAdmin = require('./auth-admin-helper');
 
-/* GET users */
-router.get('/', auth, async (req, res) => {
+/* List users */
+router.get('/', authAdmin, async (req, res) => {
   const users = await db.User.findAll();
   if (!users) {
     console.log('ユーザーデータを取得できませんでした');
@@ -12,7 +12,7 @@ router.get('/', auth, async (req, res) => {
     return;
   }
 
-  res.json(users);
+  res.render('users', { users });
 });
 
 module.exports = router;

@@ -292,6 +292,46 @@ footer {
   align-content: center;
 }
 
+.userlist {
+  width: 100%;
+  padding: 0.4em;
+  font-size: 140%;
+  background-color: lightgray;
+  display: grid;
+  grid-template-rows: 2em;
+  grid-auto-rows: 3.4em;
+  gap: 8px;
+}
+
+.userlist-item {
+  padding: 0.3em;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 6px;
+  color: #444;
+  text-decoration: none;
+  cursor: pointer;
+}
+.userlist-item:hover {
+  background-color: yellow;
+}
+
+.userlist .buttons {
+  text-align: center;
+}
+.userlist .buttons a {
+  display: inline-block;
+  padding: 0.4em;
+  color: #444;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.userlist .buttons a:hover {
+  background-color: yellow;
+}
+
 @media screen and (min-width: 480px) {
   .app_header {
     grid-template-areas: unset;

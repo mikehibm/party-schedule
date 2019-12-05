@@ -25,21 +25,35 @@ a {
 }
 
 .app_header {
-  padding: 0.4em;
+  padding: 0.2em;
   background-color: #eee;
   color: #44f;
   display: grid;
-  grid-template-columns: 8fr 4fr;
+  grid-template-areas:
+    'a a a'
+    'b c d';
+  grid-template-columns: 1fr 4em 12em;
+  grid-template-rows: 2em 1.4em;
 }
 .app_header h1 {
-  font-size: 188%;
+  font-size: 168%;
   font-weight: bold;
+  grid-area: a;
+}
+
+.app_header .menu,
+.app_header .username {
+  padding-top: 0.4em;
+  text-align: center;
+  font-size: 90%;
+}
+
+.app_header .menu {
+  grid-area: c;
 }
 
 .app_header .username {
-  padding-top: 8px;
-  text-align: center;
-  font-size: 90%;
+  grid-area: d;
 }
 
 footer {
@@ -278,7 +292,29 @@ footer {
   align-content: center;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 480px) {
+  .app_header {
+    grid-template-areas: unset;
+    grid-template-columns: 1fr 7em 12em;
+  }
+  .app_header h1 {
+    font-size: 188%;
+    grid-area: unset;
+  }
+
+  .app_header .menu,
+  .app_header .username {
+    padding-top: 1.2em;
+  }
+
+  .app_header .menu {
+    grid-area: unset;
+  }
+
+  .app_header .username {
+    grid-area: unset;
+  }
+
   .calendar-container {
     max-width: 800px;
   }

@@ -16,7 +16,7 @@ module.exports = {
             type: Sequelize.INTEGER,
           },
           name: { type: Sequelize.STRING(50) },
-          email: { type: Sequelize.STRING(255) },
+          email: { type: Sequelize.STRING(200) },
           createdAt: { allowNull: false, type: Sequelize.DATE },
           updatedAt: { allowNull: false, type: Sequelize.DATE },
         },

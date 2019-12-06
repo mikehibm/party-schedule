@@ -1,12 +1,17 @@
 <h3>User</h3>
 <div class="useredit">
 
-  <div class="top_buttons">
-    <button type="button" id="btnDelete">Delete</button>
-    <button type="button" id="btnChangePwd">Change Password</button>
-  </div>
+  {{#if user}}
+    <div class="top_buttons">
+      {{#unless isNew }}
+        <form id='frmDelete' action="/users/delete/{{user.id}}" method="POST">
+          <button type="submit">Delete</button>
+        </form>
+      {{/unless}}
+    </div>
+  {{/if}}
 
-  <form action="/users/edit/{{user.id}}" method="POST">
+  <form id='frmEdit' method="POST" autocomplete="off">
     {{#if error}}
       <p class="error">
         {{error}}
@@ -17,29 +22,48 @@
         {{message}}
       </p>
     {{/if}}
-    <div class="field">
-      <label for="name">Name</label>
-      <input type="text" name="name" value="{{user.name}}" />
-    </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input type="email" name="email" value="{{user.email}}" />
-    </div>
-    <div class="field">
-      <label for="isAdmin">Admin</label>
-      <input type="checkbox" name="isAdmin" {{#if user.isAdmin}}checked{{/if}} value="1" />
-    </div>
 
-    {{#if isNew }}
+    {{#if user}}
       <div class="field">
-        <label for="password">Password</label>
-        <input type="password" name="password" value="{{user.password}}" />
+        <label for="name">Name</label>
+        <input type="text" name="name" value="{{user.name}}" maxlength="50" autocomplete="off" autofocus />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" name="email" value="{{user.email}}" maxlength="300" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="isAdmin">Admin</label>
+        <input type="checkbox" name="isAdmin" {{#if user.isAdmin}}checked{{/if}} value="1" />
+      </div>
+
+      <div class="field">
+        {{#if isNew }}
+          <label for="password">Password</label>
+          <input type="password" name="password" value="{{user.password}}" maxlength="20" autocomplete="off" />
+        {{else}}
+          <label for=""></label>
+          <a href="/users/change_pwd/{{user.id}}">Change Password</a>
+        {{/if}}
       </div>
     {{/if}}
 
     <div class="buttons">
-      <button type="submit" id="btnSave" name="save">Save</button>
-      <button type="button" id="btnBack" name="back">Go Back</button>
+      <a href="/users/" class="back">&lt; Back</a>
+      {{#if user}}
+        <button type="submit" id="btnSave" name="save">Save</button>
+      {{/if}}
     </div>
   </form>
 </div>
+
+<script>
+  const frmDelete = $id('frmDelete');
+
+  frmDelete && frmDelete.addEventListener('submit', (e) => {
+    if (!confirm('Are you sure to delete this user?')) {
+      e.preventDefault();
+      return;
+    }
+  });
+</script>

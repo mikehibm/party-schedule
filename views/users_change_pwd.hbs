@@ -1,0 +1,43 @@
+<h3>User - Change Password</h3>
+<div class="user_change_pwd">
+
+  <form id='frmChangePwd' method="POST" autocomplete="off">
+    {{#if error}}
+      <p class="error">
+        {{error}}
+      </p>
+    {{/if}}
+    {{#if message}}
+      <p class="message">
+        {{message}}
+      </p>
+    {{/if}}
+    <div class="field">
+      <label for="password">New Password</label>
+      <input type="password" id="password" name="password" value="" maxlength="20" autocomplete="off" />
+    </div>
+    <div class="field">
+      <label for="password2">Confirm</label>
+      <input type="password" id="password2" name="password2" value="" maxlength="20" autocomplete="off" />
+    </div>
+
+    <div class="buttons">
+      <a href="/users/edit/{{user.id}}" class="back">&lt; Back</a>
+      <button type="submit" id="btnChangePwd" name="save">Save</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const frmChangePwd = $id('frmChangePwd');
+  const password = $id('password');
+  const password2 = $id('password2');
+
+  frmChangePwd && frmChangePwd.addEventListener('submit', (e) => {
+    if (password.value != password2.value) {
+      e.preventDefault();
+      alert('Please input same password twice.');
+      return;
+    }
+  });
+</script>

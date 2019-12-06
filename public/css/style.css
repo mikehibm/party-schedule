@@ -69,6 +69,19 @@ footer {
   /* background-image: url('/android-chrome-512x512.png'); */
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.message {
+  color: blue;
+  font-weight: bold;
+}
+
+/***********************************/
+/* Login */
+/***********************************/
 .login-container,
 .reset-container {
   padding: 1em;
@@ -121,6 +134,9 @@ footer {
   cursor: pointer;
 }
 
+/***********************************/
+/* Calendar */
+/***********************************/
 .calendar-container {
   width: 100%;
   margin-left: auto;
@@ -165,6 +181,9 @@ footer {
   font-size: 180%;
 }
 
+/***********************************/
+/* Event Detail */
+/***********************************/
 .events-datail .times {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -292,6 +311,9 @@ footer {
   align-content: center;
 }
 
+/***********************************/
+/* User List */
+/***********************************/
 .userlist {
   width: 100%;
   padding: 0.4em;
@@ -311,6 +333,9 @@ footer {
   color: #444;
   text-decoration: none;
   cursor: pointer;
+}
+.userlist-item.admin {
+  background-color: lightblue;
 }
 .userlist-item:hover {
   background-color: yellow;
@@ -332,13 +357,18 @@ footer {
   background-color: yellow;
 }
 
+/***********************************/
+/* User Edit */
+/***********************************/
 .useredit {
+  max-width: 400px;
+  margin: 0 auto;
   padding: 1em;
   background-color: lightgray;
   border-radius: 8px;
 }
 
-.useredit form {
+.useredit form#frmEdit {
   display: grid;
   row-gap: 1em;
 }
@@ -350,35 +380,75 @@ footer {
 }
 
 .useredit .top_buttons {
-  margin: 2em;
+  margin: 1em 2em;
+  text-align: right;
 }
 .useredit .top_buttons button {
   color: red;
 }
-
+.useredit .top_buttons form {
+  display: inline-block;
+}
 .useredit #btnChangePwd {
   color: #444;
 }
 
 .useredit .buttons {
-  margin: 2em;
+  margin: 1em 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2em;
+  justify-items: center;
 }
 
-.useredit #btnSave {
+.useredit button[type='submit'] {
   color: blue;
   font-weight: bold;
 }
 
-.useredit .error {
+.useredit #frmDelete button[type='submit'] {
   color: red;
-  font-weight: bold;
+  font-weight: normal;
 }
 
-.useredit .message {
+/***********************************/
+/* Change Password */
+/***********************************/
+.user_change_pwd {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1em;
+  background-color: lightgray;
+  border-radius: 8px;
+}
+
+.user_change_pwd form {
+  display: grid;
+  row-gap: 1em;
+}
+
+.user_change_pwd form .field {
+  display: grid;
+  grid-template-columns: 8em 1fr;
+  font-size: 120%;
+}
+
+.user_change_pwd .buttons {
+  margin: 1em 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2em;
+  justify-items: center;
+}
+
+.user_change_pwd button[type='submit'] {
   color: blue;
   font-weight: bold;
 }
 
+/***********************************/
+/* Wide Screen */
+/***********************************/
 @media screen and (min-width: 480px) {
   .app_header {
     grid-template-areas: unset;

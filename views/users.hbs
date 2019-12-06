@@ -1,11 +1,14 @@
 <h3>Users</h3>
 <div class="userlist">
+  {{#if message }}
+    <div class='message'>{{message}}</div>
+  {{/if}}
   <div class="buttons">
     <a href="/users/edit/0">Add New User</a>
   </div>
   {{#each users}}
-    <a class="userlist-item" href="/users/edit/{{this.id}}">
-      {{this.name}} <br />
+    <a class="userlist-item {{#if this.isAdmin}}admin{{/if}}" href="/users/edit/{{this.id}}">
+      {{this.name}} {{#if this.isAdmin}}(Admin){{/if}} <br />
       {{this.email}}
     </a>
   {{/each}}

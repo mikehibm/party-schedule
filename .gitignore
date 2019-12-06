@@ -61,9 +61,9 @@ typings/
 .env
 *.env
 
-# Config files
-database.json
-database.js
+# # Config files
+# database.json
+# database.js
 
 # Data folder
 **/mysql/data/

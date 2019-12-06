@@ -40,6 +40,10 @@ a {
   font-weight: bold;
   grid-area: a;
 }
+.app_header h1 > a {
+  text-decoration: none;
+  color: #44f;
+}
 
 .app_header .menu,
 .app_header .username {

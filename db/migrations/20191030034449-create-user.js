@@ -23,11 +23,12 @@ module.exports = {
         { transaction }
       );
 
-      await queryInterface.addIndex('users', ['email'], {
-        unique: true,
-        transaction,
-      });
-      await queryInterface.addIndex('users', ['name'], { transaction });
+      // Commented out temporary due to Heroku's ClearDB(MySQL 5.6) limitation.
+      // await queryInterface.addIndex('users', ['email'], {
+      //   unique: true,
+      //   transaction,
+      // });
+      // await queryInterface.addIndex('users', ['name'], { transaction });
 
       await transaction.commit();
     } catch (err) {

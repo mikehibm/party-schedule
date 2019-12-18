@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 services:
   mysql:
     image: mysql:5.7
@@ -11,7 +11,7 @@ services:
       - backend
     volumes:
       - ./docker/mysql/conf:/etc/mysql/conf.d/:ro
-      - ./docker/mysql/data:/var/lib/mysql
+      - mysqldata:/var/lib/mysql
 
   app:
     # build:
@@ -35,3 +35,6 @@ services:
 
 networks:
   backend:
+
+volumes:
+  mysqldata:

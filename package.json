@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.17.0",
-    "hbs": "~4.0.4",
+    "hbs": "~4.2.0",
     "http-errors": "^1.7.3",
     "luxon": "^1.21.1",
     "morgan": "~1.9.1",

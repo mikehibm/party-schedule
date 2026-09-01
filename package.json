@@ -19,7 +19,7 @@
     "http-errors": "^1.7.3",
     "luxon": "^2.5.2",
     "morgan": "~1.11.0",
-    "mysql2": "^3.9.8",
+    "mysql2": "^3.22.0",
     "sequelize": "^6.37.8",
     "sequelize-cli": "^6.6.5",
     "notiflix": "^1.9.1"
